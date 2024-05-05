@@ -16,15 +16,54 @@ namespace ApplicationLauncher
     /// </summary>
     public partial class MainWindow : Window
     {
+        private bool isDragging = false;
+        private Point initialMousePos;
+
         public MainWindow()
         {
             InitializeComponent();
+            this.StateChanged += new EventHandler(Window_StateChanged);
         }
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            // Allows the window to be dragged by the custom title bar
-            this.DragMove();
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                // Remember mouse down position, relative to screen
+                initialMousePos = this.PointToScreen(e.GetPosition(this));
+
+                if (WindowState == WindowState.Maximized)
+                {
+                    // Temporarily store the size and location of the fully maximized window
+                    var maxTop = this.Top;
+                    var maxWidth = this.Width;
+                    var maxHeight = this.Height;
+
+                    // Restore the window
+                    this.WindowState = WindowState.Normal;
+
+                    // Adjust window position under cursor
+                    this.Left = initialMousePos.X - (this.RestoreBounds.Width * 0.5);
+                    this.Top = initialMousePos.Y - (this.RestoreBounds.Height * 0.1);
+
+                    // Ensure window stays within screen bounds
+                    this.Left = Math.Max(this.Left, 0);
+                    this.Top = Math.Max(this.Top, 0);
+                    this.Left = Math.Min(this.Left, SystemParameters.WorkArea.Width - this.RestoreBounds.Width);
+                    this.Top = Math.Min(this.Top, SystemParameters.WorkArea.Height - this.RestoreBounds.Height);
+                }
+
+                this.DragMove();
+            }
+        }
+
+        private void TitleBar_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            // Release the mouse capture if it's currently captured
+            if (Mouse.Captured == sender as UIElement)
+            {
+                Mouse.Capture(null);
+            }
         }
 
         private void Close_Click(object sender, RoutedEventArgs e)
@@ -36,9 +75,15 @@ namespace ApplicationLauncher
         {
             // Toggles the window state between normal and maximized
             if (this.WindowState == WindowState.Maximized)
+            {
                 this.WindowState = WindowState.Normal;
+                //MaximizeRestoreButton.Content = "\uE922";
+            }
             else
+            {
                 this.WindowState = WindowState.Maximized;
+                //MaximizeRestoreButton.Content = "\uE923";
+            }
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e)
@@ -52,15 +97,15 @@ namespace ApplicationLauncher
             {
                 // Adjust for the system taskbar and window border overlap
                 this.BorderThickness = new Thickness(7, 7, 7, 7);
+                MaximizeRestoreButton.Content = "\uE923";
             }
             else
             {
                 // Remove borders when window is not maximized
                 this.BorderThickness = new Thickness(0);
+                MaximizeRestoreButton.Content = "\uE922";
             }
         }
-
-
-
+        
     }
 }

@@ -19,8 +19,8 @@
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
             <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="FontSize" Value="10"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -56,15 +56,17 @@
             <!-- Remaining content -->
         </Grid.RowDefinitions>
 
-        <Border Background="#FF2A2D2E" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+        <Border Background="#FF2A2D2E" 
+                MouseLeftButtonDown="TitleBar_MouseLeftButtonDown"
+                MouseLeftButtonUp="TitleBar_MouseLeftButtonUp">
             <DockPanel>
                 <Image Source="/EasyAppLogoIconSmall.png" Height="32" Width="32" Margin="0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
 
                 <TextBlock Text="Application Launcher" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" DockPanel.Dock="Left" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="−" Width="47" Click="Minimize_Click" Style="{StaticResource TransparentButtonStyle}"/>
-                    <Button Content="🗖" Width="47" Click="MaximizeRestore_Click" Style="{StaticResource TransparentButtonStyle}"/>
-                    <Button Content="X" Width="47" Click="Close_Click" Style="{StaticResource TransparentButtonStyle}"/>
+                    <Button Content="&#xE921;" Width="47" Click="Minimize_Click" Style="{StaticResource TransparentButtonStyle}" FontFamily="Segoe MDL2 Assets"/>
+                    <Button x:Name="MaximizeRestoreButton" Content="&#xE922;" Width="47" Click="MaximizeRestore_Click" Style="{StaticResource TransparentButtonStyle}" FontFamily="Segoe MDL2 Assets"/>
+                    <Button Content="&#xE8BB;" Width="47" Click="Close_Click" Style="{StaticResource TransparentButtonStyle}" FontWeight="Normal" FontFamily="Segoe MDL2 Assets"/>
                 </StackPanel>
 
             </DockPanel>
