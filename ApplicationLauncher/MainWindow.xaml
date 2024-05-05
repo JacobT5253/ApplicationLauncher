@@ -5,8 +5,71 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ApplicationLauncher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="550" Width="950"
+        WindowStyle="None"    
+        AllowsTransparency="True" Background="White"
+        StateChanged="Window_StateChanged">
 
+    <Window.Resources>
+        <Style x:Key="TransparentButtonStyle" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="BorderBrush" Value="Transparent"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#666666"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#666666"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="#555555"/>
+                    <!-- Even darker on click -->
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="32"/>
+            <!-- Title bar height -->
+            <RowDefinition Height="*"/>
+            <!-- Remaining content -->
+        </Grid.RowDefinitions>
+
+        <Border Background="#FF2A2D2E" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+            <DockPanel>
+                <Image Source="/EasyAppLogoIconSmall.png" Height="32" Width="32" Margin="0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
+
+                <TextBlock Text="Application Launcher" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" DockPanel.Dock="Left" FontWeight="Bold"/>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="−" Width="47" Click="Minimize_Click" Style="{StaticResource TransparentButtonStyle}"/>
+                    <Button Content="🗖" Width="47" Click="MaximizeRestore_Click" Style="{StaticResource TransparentButtonStyle}"/>
+                    <Button Content="X" Width="47" Click="Close_Click" Style="{StaticResource TransparentButtonStyle}"/>
+                </StackPanel>
+
+            </DockPanel>
+        </Border>
+
+        <!-- Additional content below the title bar -->
+        <Grid Grid.Row="1">
+            <!-- Main application content -->
+        </Grid>
     </Grid>
 </Window>

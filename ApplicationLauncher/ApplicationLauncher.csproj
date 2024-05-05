@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="EasyAppLogoIconSmall.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="EasyAppLogoIconSmall.png" />
+  </ItemGroup>
+
 </Project>
