@@ -22,27 +22,14 @@ namespace ApplicationLauncher
     {
         public event Action<int> RequestViewSwitch;
 
-
         public SequenceEditor()
         {
             InitializeComponent();
         }
 
-        public void Refresh()
-        {
-
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            SwitchViews();
-        }
-
-        private void SwitchViews()
+        private void SwitchViewButton_Click(object sender, RoutedEventArgs e)
         {
             RequestViewSwitch?.Invoke(1);
         }
-
-
     }
 }

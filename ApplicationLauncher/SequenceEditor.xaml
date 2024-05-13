@@ -6,10 +6,7 @@
              xmlns:local="clr-namespace:ApplicationLauncher"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="White">
-        <Label Content="SEQUENCE EDITOR" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Image HorizontalAlignment="Left" Height="314" VerticalAlignment="Top" Width="283" Source="/test1.png" Stretch="Fill"/>
-        <Button Content="Button" HorizontalAlignment="Left" Margin="625,183,0,0" VerticalAlignment="Top" Click="Button_Click"/>
-
+    <Grid Background="#FFFF1313">
+        <Button x:Name="SwitchViewButton" Content="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SwitchViewButton_Click"/>
     </Grid>
 </UserControl>

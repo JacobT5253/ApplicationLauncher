@@ -9,11 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="EasyAppLogo1.png" />
     <None Remove="EasyAppLogoIconSmall.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="EasyAppLogo1.png" />
     <Resource Include="EasyAppLogoIconSmall.png" />
   </ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<Exec Command="echo Removing assets folder from $(TargetDir)assets &amp;&amp; if exist &quot;$(TargetDir)assets&quot; (echo Found and removing... &amp;&amp; rmdir /s /q &quot;$(TargetDir)assets&quot;) else echo Folder not found" />
+	</Target>
+
+	<Target Name="CopyAssets" AfterTargets="Build">
+		<Exec Command="powershell -NoProfile -ExecutionPolicy Unrestricted -Command &quot;Copy-Item -Path '$(ProjectDir)assets\' -Destination '$(TargetDir)assets\' -Recurse -Force&quot;" />
+	</Target>
 
 </Project>

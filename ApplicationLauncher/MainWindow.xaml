@@ -5,15 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ApplicationLauncher"
         mc:Ignorable="d"
-        Title="MainWindow" Height="550" Width="950"
+        Title="EasyApp Launcher" Height="550" Width="800"
+        MinWidth="700" MinHeight="500"
+        MaxWidth="1000" MaxHeight="900"
+        WindowStartupLocation="CenterScreen"
         WindowStyle="None"    
         Background="White"
-        StateChanged="Window_StateChanged">
+        StateChanged="Window_StateChanged" Icon="/EasyAppLogo1.png">
     <WindowChrome.WindowChrome>
         <WindowChrome GlassFrameThickness="0" CornerRadius="0" CaptionHeight="0" />
     </WindowChrome.WindowChrome>
 
-            <Window.Resources>
+    <Window.Resources>
         <Style x:Key="TransparentButtonStyle" TargetType="Button">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Foreground" Value="White"/>
@@ -62,9 +65,9 @@
             <DockPanel>
                 <Image Source="/EasyAppLogoIconSmall.png" Height="32" Width="32" Margin="0" VerticalAlignment="Center" DockPanel.Dock="Left"/>
 
-                <TextBlock Text="Application Launcher" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" DockPanel.Dock="Left" FontWeight="Bold"/>
+                <TextBlock Text="EasyApp Launcher" Foreground="White" VerticalAlignment="Center" Margin="10,0,0,0" DockPanel.Dock="Left" FontWeight="Bold"/>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="&#xE921;" Width="47" Click="Minimize_Click" Style="{StaticResource TransparentButtonStyle}" FontFamily="Segoe MDL2 Assets"/>
+                    <Button Content="&#xE738;" Width="47" Click="Minimize_Click" Style="{StaticResource TransparentButtonStyle}" FontFamily="Segoe MDL2 Assets"/>
                     <Button x:Name="MaximizeRestoreButton" Content="&#xE922;" Width="47" Click="MaximizeRestore_Click" Style="{StaticResource TransparentButtonStyle}" FontFamily="Segoe MDL2 Assets"/>
                     <Button Content="&#xE8BB;" Width="47" Click="Close_Click" Style="{StaticResource TransparentButtonStyle}" FontWeight="Normal" FontFamily="Segoe MDL2 Assets"/>
                 </StackPanel>
@@ -74,6 +77,7 @@
 
         <!-- Additional content below the title bar -->
         <Grid Grid.Row="1">
+            <ContentControl x:Name="contentControl" Content="ContentControl"/>
             <!-- Main application content -->
         </Grid>
     </Grid>

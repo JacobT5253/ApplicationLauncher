@@ -19,11 +19,41 @@ namespace ApplicationLauncher
         private bool isDragging = false;
         private Point initialMousePos;
 
+        private UserControl profileView;
+        private UserControl sequenceEditor;
+        private UserControl activeView;
+
         public MainWindow()
         {
             InitializeComponent();
+            // subscribe to the event handler for when the window state is changed
             this.StateChanged += new EventHandler(Window_StateChanged);
+
+            // initialize the views
+            profileView = new ProfileView();
+            sequenceEditor = new SequenceEditor();
+
+            // subscribe to the view switching button methods
+            ((ProfileView)profileView).RequestViewSwitch += SwitchView;
+            ((SequenceEditor)sequenceEditor).RequestViewSwitch += SwitchView;
+
+            // initial view switch to display the profile view
+            SwitchView(1);
         }
+
+        public void SwitchView(int viewNumber)
+        {
+            if (viewNumber == 1)
+            {
+                contentControl.Content = profileView;
+                ((ProfileView)profileView).LoadProfiles();
+            }
+            else
+            {
+                contentControl.Content = sequenceEditor;
+            }
+        }
+
 
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {

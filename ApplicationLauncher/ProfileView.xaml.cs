@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,24 +22,46 @@ namespace ApplicationLauncher
     public partial class ProfileView : UserControl
     {
         public event Action<int> RequestViewSwitch;
-
+        public List<Profile> profiles;
+        private ProfileManager profileManager;
         public ProfileView()
         {
             InitializeComponent();
+            profileManager = new ProfileManager();
         }
-        public void Refresh()
+
+
+        public void LoadProfiles()
+        {
+            profiles = profileManager.LoadProfiles();
+
+            LoadProfilesIntoView(profiles);
+
+        }
+
+        private void LoadProfilesIntoView(IEnumerable<Profile> profileList)
+        {
+            profilesPanel.Items.Clear();
+            foreach (var profile in profiles)
+            {
+                var profileView = new ProfileTemplate(profile);
+                profilesPanel.Items.Add(profileView);
+            }
+        }
+
+        private void SwitchViewButton_Click(object sender, RoutedEventArgs e)
+        {
+            RequestViewSwitch?.Invoke(2);
+        }
+
+        private void NewProfileButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            SwitchViews();
-        }
 
-        private void SwitchViews()
-        {
-            RequestViewSwitch?.Invoke(2);
         }
     }
 }
