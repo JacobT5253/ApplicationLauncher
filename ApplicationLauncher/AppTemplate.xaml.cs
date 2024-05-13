@@ -18,18 +18,19 @@ namespace ApplicationLauncher
     /// <summary>
     /// Interaction logic for ProfileTemplate.xaml
     /// </summary>
-    public partial class ProfileTemplate : UserControl
+    public partial class AppTemplate : UserControl
     {
-        public event Action<Profile> EditProfile;
 
-        private Profile profile;
+        private MyApp App;
 
 
-        public ProfileTemplate(Profile profile)
+        public AppTemplate(MyApp app)
         {
             InitializeComponent();
-            this.profile = profile;
-            this.ProfileNameLabel.Content = profile.Name;
+            this.App = app;
+            AppNameLabel.Content = app.Name;
+            AppPathLabel.Content = app.Path;
+            DelayTextBox.Text = $"{app.Delay}";
         }
 
         private void LaunchButton_Click(object sender, RoutedEventArgs e)
@@ -39,7 +40,7 @@ namespace ApplicationLauncher
 
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
-            EditProfile?.Invoke(this.profile);
+
         }
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)

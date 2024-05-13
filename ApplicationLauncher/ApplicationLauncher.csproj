@@ -18,6 +18,12 @@
     <Resource Include="EasyAppLogoIconSmall.png" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="AppTemplate.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 		<Exec Command="echo Removing assets folder from $(TargetDir)assets &amp;&amp; if exist &quot;$(TargetDir)assets&quot; (echo Found and removing... &amp;&amp; rmdir /s /q &quot;$(TargetDir)assets&quot;) else echo Folder not found" />
 	</Target>

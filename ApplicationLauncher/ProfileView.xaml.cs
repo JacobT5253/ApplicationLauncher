@@ -22,6 +22,8 @@ namespace ApplicationLauncher
     public partial class ProfileView : UserControl
     {
         public event Action<int> RequestViewSwitch;
+        public event Action<Profile> ProfileEdited;
+
         public List<Profile> profiles;
         private ProfileManager profileManager;
         public ProfileView()
@@ -39,29 +41,37 @@ namespace ApplicationLauncher
 
         }
 
+
         private void LoadProfilesIntoView(IEnumerable<Profile> profileList)
         {
             profilesPanel.Items.Clear();
             foreach (var profile in profiles)
             {
-                var profileView = new ProfileTemplate(profile);
-                profilesPanel.Items.Add(profileView);
+                var template = new ProfileTemplate(profile);
+                template.EditProfile += OnProfileEdited;  // Subscribe to the EditProfile event
+                profilesPanel.Items.Add(template);
             }
         }
 
-        private void SwitchViewButton_Click(object sender, RoutedEventArgs e)
+        private void OnProfileEdited(Profile profile)
         {
-            RequestViewSwitch?.Invoke(2);
+            ProfileEdited?.Invoke(profile);
         }
+
+        private void SwitchView(int profile)
+        {
+            RequestViewSwitch?.Invoke(profile);
+        }
+
 
         private void NewProfileButton_Click(object sender, RoutedEventArgs e)
         {
-
+            SwitchView(1);
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void LoadThisProfile(Profile profile)
         {
-
+            SwitchView(2);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Printing;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -21,15 +22,60 @@ namespace ApplicationLauncher
     public partial class SequenceEditor : UserControl
     {
         public event Action<int> RequestViewSwitch;
-
+        public Profile Profile { get; set; }
+        private ProfileManager profileManager;
+        public List<MyApp> appList;
+        
         public SequenceEditor()
         {
             InitializeComponent();
+            profileManager = new ProfileManager();
         }
 
-        private void SwitchViewButton_Click(object sender, RoutedEventArgs e)
+        public void LoadAppsIntoView(Profile profile)
         {
-            RequestViewSwitch?.Invoke(1);
+            appList = profileManager.LoadApps(profile);
+
+            appsPanel.Items.Clear();
+            MyApp last = appList.Last();
+            foreach (var app in appList)
+            {
+                var template = new AppTemplate(app);
+                
+                if (app == last)
+                {
+                    template.BorderBrush = Brushes.Black;
+                    template.BorderThickness = new Thickness(3, 3, 3, 3);
+                }
+                else
+                {
+                    template.BorderBrush= Brushes.Black;
+                    template.BorderThickness = new Thickness(3, 3, 3, 0);
+                }
+                appsPanel.Items.Add(template);
+            }
+        }
+
+
+        private void SwitchView(int num)
+        {
+            RequestViewSwitch?.Invoke(num);
+        }
+
+
+        private void AddAppButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SaveSequenceButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void BackButton_Click(object sender, RoutedEventArgs e)
+        {
+            SwitchView(3);
         }
     }
 }

@@ -24,10 +24,10 @@
             </Grid.ColumnDefinitions>
 
             <!-- Label centered in the second column of the nested grid -->
-            <Label Content="Profiles" FontSize="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Label x:Name="ProfileLabel" Content="Profiles" FontSize="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
             <!-- New Profile button in the third column of the nested grid -->
-            <Button Content="New Profile" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Height="35" Width="80" Click="Button_Click"/>
+            <Button x:Name="NewProfileButton" Content="New Profile +" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Height="34" Width="90" Click="NewProfileButton_Click"/>
         </Grid>
 
         <Grid Grid.Row="1" Background="#FFB4B4B4">
@@ -41,7 +41,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="10"/>
             </Grid.RowDefinitions>
-            
+
             <!-- ScrollViewer for dynamic profile content -->
             <ScrollViewer Grid.Row="1" Grid.Column="1">
                 <ItemsControl x:Name="profilesPanel" HorizontalContentAlignment="Stretch">
@@ -50,6 +50,6 @@
             </ScrollViewer>
         </Grid>
 
-        
+
     </Grid>
 </UserControl>

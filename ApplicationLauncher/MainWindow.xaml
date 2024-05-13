@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ApplicationLauncher"
         mc:Ignorable="d"
-        Title="EasyApp Launcher" Height="550" Width="800"
+        Title="EasyApp Launcher" Height="550" Width="700"
         MinWidth="700" MinHeight="500"
         MaxWidth="1000" MaxHeight="900"
         WindowStartupLocation="CenterScreen"

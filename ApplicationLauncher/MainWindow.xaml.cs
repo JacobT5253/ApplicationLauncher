@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -36,25 +37,35 @@ namespace ApplicationLauncher
             // subscribe to the view switching button methods
             ((ProfileView)profileView).RequestViewSwitch += SwitchView;
             ((SequenceEditor)sequenceEditor).RequestViewSwitch += SwitchView;
-
-            // initial view switch to display the profile view
-            SwitchView(1);
+            ((ProfileView)profileView).ProfileEdited += ProfileView_ProfileEdited;
+            // initial view switch to display the profile view 1 = blank sequence editor, 2 = specific sequence editor, 3 = profile page
+            SwitchView(3);
         }
 
         public void SwitchView(int viewNumber)
         {
             if (viewNumber == 1)
             {
-                contentControl.Content = profileView;
-                ((ProfileView)profileView).LoadProfiles();
+                contentControl.Content = sequenceEditor;
             }
-            else
+            else if (viewNumber == 2)
             {
                 contentControl.Content = sequenceEditor;
             }
+            else
+            {
+                contentControl.Content = profileView;
+                ((ProfileView)profileView).LoadProfiles();
+            }
         }
 
-
+        private void ProfileView_ProfileEdited(Profile profile)
+        {
+            ((SequenceEditor)sequenceEditor).LoadAppsIntoView(profile);
+            Debug.WriteLine($"Profile {profile.Name} has been clicked and is now being edited");
+            
+            SwitchView(2);
+        }
         private void TitleBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)

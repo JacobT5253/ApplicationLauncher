@@ -6,7 +6,53 @@
              xmlns:local="clr-namespace:ApplicationLauncher"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Background="#FFFF1313">
-        <Button x:Name="SwitchViewButton" Content="Button" HorizontalAlignment="Center" VerticalAlignment="Center" Click="SwitchViewButton_Click"/>
+    <Grid Background="#FFC9DAFF">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <!-- Row for the header -->
+
+            <RowDefinition Height="*"/>
+            <!-- Row for the content below -->
+        </Grid.RowDefinitions>
+
+        <!-- Nested Grid for the Header in the First Row -->
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Label centered in the second column of the nested grid -->
+            <Label x:Name="ProfileNameLabel" Content="ProfileName" FontSize="20" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+            <!-- New Profile button in the third column of the nested grid -->
+            <Button x:Name="AddAppButton" Content="Add App +" Grid.Column="2" HorizontalAlignment="Right" Margin="0,0,10,0" VerticalAlignment="Center" Height="35" Width="80" Click="AddAppButton_Click"/>
+            <Button x:Name="BackButton" Content=" &lt;- Back" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Center" Height="30" Width="64" Click="BackButton_Click"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Background="#FFB4B4B4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="10"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="10"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+
+            <!-- ScrollViewer for dynamic profile content -->
+            <ScrollViewer Grid.Row="1" Grid.Column="1">
+                <ItemsControl x:Name="appsPanel" HorizontalContentAlignment="Stretch">
+                    <!-- Each row will be added via code when reading in the csv file -->
+                </ItemsControl>
+            </ScrollViewer>
+            <Button x:Name="SaveSequenceButton" Grid.Column="1" Content="Save Sequence" HorizontalAlignment="Right" Margin="0,0,10,0" Grid.Row="2" VerticalAlignment="Center" Width="90" Height="30" Click="SaveSequenceButton_Click"/>
+        </Grid>
+
+
     </Grid>
 </UserControl>
+
