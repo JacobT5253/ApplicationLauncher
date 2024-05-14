@@ -46,6 +46,7 @@ namespace ApplicationLauncher
         {
             if (viewNumber == 1)
             {
+                ((SequenceEditor)sequenceEditor).ClearAppList();
                 contentControl.Content = sequenceEditor;
             }
             else if (viewNumber == 2)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Printing;
@@ -13,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO;
+using System.Runtime.InteropServices;
+
 
 namespace ApplicationLauncher
 {
@@ -56,6 +60,11 @@ namespace ApplicationLauncher
             }
         }
 
+        public void ClearAppList()
+        {
+            appList = new List<MyApp>();
+            appsPanel.Items.Clear();
+        }
 
         private void SwitchView(int num)
         {
@@ -65,9 +74,56 @@ namespace ApplicationLauncher
 
         private void AddAppButton_Click(object sender, RoutedEventArgs e)
         {
-
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                Filter = "Executable files (*.exe)|*.exe|Shortcut files (*.lnk)|*.lnk",
+                Multiselect = true,
+            };
+            bool? result = openFileDialog.ShowDialog();
+            if (result == true)
+            {
+                List<MyApp> myApps = ProcessSelectedFiles(openFileDialog.FileNames);
+                // Do something with the list of MyApp objects
+            }
         }
 
+        private List<MyApp> ProcessSelectedFiles(string[] fileNames)
+        {
+            List<MyApp> apps = new List<MyApp>();
+            foreach (string file in fileNames)
+            {
+                string filePath = file;
+                string appName = System.IO.Path.GetFileNameWithoutExtension(file);
+
+                if (System.IO.Path.GetExtension(file).ToLower() == ".lnk")
+                {
+                    // Use the Shell32 method to resolve the shortcut target
+                    filePath = GetShortcutTarget(file);
+                    if (filePath != null)
+                    {
+                        appName = System.IO.Path.GetFileNameWithoutExtension(filePath);
+                    }
+                }
+
+                apps.Add(new MyApp(appName, filePath, 0));
+            }
+            return apps;
+        }
+
+        public static string GetShortcutTarget(string shortcutPath)
+        {
+            dynamic shell = Activator.CreateInstance(Type.GetTypeFromProgID("Shell.Application"));
+            dynamic folder = shell.NameSpace(System.IO.Path.GetDirectoryName(shortcutPath));
+            dynamic item = folder.ParseName(System.IO.Path.GetFileName(shortcutPath));
+
+            if (item != null)
+            {
+                dynamic link = item.GetLink;
+                return link.Path;
+            }
+
+            return null; // Return null if the path couldn't be resolved
+        }
         private void SaveSequenceButton_Click(object sender, RoutedEventArgs e)
         {
 

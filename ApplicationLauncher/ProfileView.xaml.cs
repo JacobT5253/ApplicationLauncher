@@ -69,9 +69,5 @@ namespace ApplicationLauncher
             SwitchView(1);
         }
 
-        private void LoadThisProfile(Profile profile)
-        {
-            SwitchView(2);
-        }
     }
 }
