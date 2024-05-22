@@ -62,6 +62,7 @@ namespace ApplicationLauncher
 
         private void ProfileView_ProfileEdited(Profile profile)
         {
+            ((SequenceEditor)sequenceEditor).Profile = profile;
             ((SequenceEditor)sequenceEditor).LoadAppsIntoView(profile);
             Debug.WriteLine($"Profile {profile.Name} has been clicked and is now being edited");
             

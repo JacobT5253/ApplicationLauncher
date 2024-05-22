@@ -17,7 +17,7 @@
                 <TextBox x:Name="DelayTextBox" Text="0" Width="42" Height="20" HorizontalAlignment="Right"/>
                 <Label x:Name="MsLabel" Content="ms" Height="30" HorizontalAlignment="Right"/>
             </StackPanel>
-            <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="10,47,0,10" Width="100" Height="40"/>
+            <Button x:Name="DeleteButton" Content="Delete" HorizontalAlignment="Left" Margin="10,47,0,10" Width="100" Height="40" Click="DeleteButton_Click"/>
 
         </Grid>
     </Border>

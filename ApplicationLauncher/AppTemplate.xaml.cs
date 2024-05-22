@@ -20,6 +20,7 @@ namespace ApplicationLauncher
     /// </summary>
     public partial class AppTemplate : UserControl
     {
+        public event Action<MyApp> AppDeleted;
 
         private MyApp App;
 
@@ -45,7 +46,7 @@ namespace ApplicationLauncher
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            AppDeleted?.Invoke(App);
         }
     }
 }

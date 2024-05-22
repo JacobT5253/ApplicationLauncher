@@ -16,6 +16,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 
 namespace ApplicationLauncher
@@ -39,25 +40,44 @@ namespace ApplicationLauncher
         public void LoadAppsIntoView(Profile profile)
         {
             appList = profileManager.LoadApps(profile);
+            RefreshAppsView();
+        }
 
+        public void RefreshAppsView()
+        {
             appsPanel.Items.Clear();
-            MyApp last = appList.Last();
-            foreach (var app in appList)
+            if (appList.Count > 0 )
             {
-                var template = new AppTemplate(app);
-                
-                if (app == last)
+                MyApp last = appList.Last();
+                foreach (var app in appList)
                 {
-                    template.BorderBrush = Brushes.Black;
-                    template.BorderThickness = new Thickness(3, 3, 3, 3);
+                    var template = new AppTemplate(app);
+                    template.AppDeleted += OnAppDeleted;
+
+                    if (app == last)
+                    {
+                        template.BorderBrush = Brushes.Black;
+                        template.BorderThickness = new Thickness(3, 3, 3, 3);
+                    }
+                    else
+                    {
+                        template.BorderBrush = Brushes.Black;
+                        template.BorderThickness = new Thickness(3, 3, 3, 0);
+                    }
+                    appsPanel.Items.Add(template);
                 }
-                else
-                {
-                    template.BorderBrush= Brushes.Black;
-                    template.BorderThickness = new Thickness(3, 3, 3, 0);
-                }
-                appsPanel.Items.Add(template);
             }
+            else
+            {
+                Debug.WriteLine("AppList is blank");
+            }
+        }
+
+        private void OnAppDeleted(MyApp app)
+        {
+            Debug.WriteLine($"Deleting {app.Name} from applist");
+            appList.Remove(app);
+            RefreshAppsView();
         }
 
         public void ClearAppList()
@@ -84,6 +104,11 @@ namespace ApplicationLauncher
             {
                 List<MyApp> myApps = ProcessSelectedFiles(openFileDialog.FileNames);
                 // Do something with the list of MyApp objects
+                foreach (MyApp app in myApps)
+                {
+                    appList.Add(app);
+                    RefreshAppsView();
+                }
             }
         }
 
@@ -126,7 +151,15 @@ namespace ApplicationLauncher
         }
         private void SaveSequenceButton_Click(object sender, RoutedEventArgs e)
         {
-
+            var csvFilePath = Profile.FilePath;
+            using (var writer = new StreamWriter(csvFilePath))
+            {
+                foreach (var app in appList)
+                {
+                    var line = $"{app.Name},{app.Path},{app.Delay}";
+                    writer.WriteLine(line);
+                }
+            }
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
